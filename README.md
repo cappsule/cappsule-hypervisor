@@ -2,7 +2,7 @@
 
 This repository is part of [Cappsule](https://github.com/cappsule), and contains
 the hypervisor. Please refer to the
-[documentation](https://github.com/cappsule/doc/) for more information.
+[documentation](https://github.com/cappsule/cappsule-doc/) for more information.
 
 
 
@@ -21,8 +21,8 @@ The hypervisor supports 2 kinds of VM:
 
 In order to operate, Cappsule needs to insert 2 kernel modules (`cappsule.ko`
 and `cappsule_guest.ko`). A userland daemon (in the
-[userland repository](https://github.com/cappsule/userland/)) is responsible of
-the communication between userland and the kernel module.
+[userland repository](https://github.com/cappsule/cappsule-userland/)) is
+responsible of the communication between userland and the kernel module.
 
 
 ## Architecture
