@@ -77,4 +77,14 @@ struct vmcs_segment {
 	p;					\
 })
 
+/* 45e876f794e8e566bf827c25ef0791875081724f
+ * x86/segments/64: When loadsegment(fs, ...) fails, clear the base */
+#ifndef __loadsegment_gs
+# define __loadsegment_gs(value)	load_gs_index(value)
+#endif
+
+#ifndef loadsegment
+# define loadsegment(seg, value)	__loadsegment(seg, value)
+#endif
+
 #endif /* _HOST_SEGMENT_H */
