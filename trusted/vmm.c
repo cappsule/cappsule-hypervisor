@@ -169,8 +169,6 @@ static err_t cpu_check_capability(void)
 		return ERROR_CPU_WB_MEMORY_TYPE;
 	else if (!(capability_ept_vpid & (1 << 20)))
 		return ERROR_CPU_NO_INVEPT;
-	else if (!(capability_ept_vpid & (1 << 25)))
-		return ERROR_CPU_INVEPT_SINGLE_CONTEXT;
 	else if (!(capability_ept_vpid & (1 << 26)))
 		return ERROR_CPU_INVEPT_TYPE;
 
