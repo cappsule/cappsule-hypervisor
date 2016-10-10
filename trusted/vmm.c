@@ -170,7 +170,7 @@ static err_t cpu_check_capability(void)
 	else if (!(capability_ept_vpid & (1 << 20)))
 		return ERROR_CPU_NO_INVEPT;
 	else if (!(capability_ept_vpid & (1 << 26)))
-		return ERROR_CPU_INVEPT_TYPE;
+		return ERROR_CPU_INVEPT_ALL_CONTEXT;
 
 	if (((controls2_msr >> 32) & SECONDARY_EXEC_ENABLE_VPID) &&
 	    (capability_ept_vpid & 0xf0100000000UL) == 0xf0100000000UL)
