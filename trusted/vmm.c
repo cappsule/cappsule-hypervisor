@@ -36,13 +36,18 @@
 #include "trusted/xchan.h"
 
 
-struct ia32_feature_control_msr {
+struct ia32_feature_control_msr_bits {
 	unsigned lock            :1;
 	unsigned VmxonInSmx      :1;
 	unsigned VmxonOutSmx     :1;
 	unsigned Reserved2       :29;
 	__u32 reserved3;
 } __attribute__((__packed__));
+
+union ia32_feature_control_msr {
+	struct ia32_feature_control_msr_bits bits;
+	__u64 value;
+};
 
 struct vmm vmm;
 extern struct notifier_block cappsule_cpu_notifier;
@@ -146,7 +151,7 @@ static err_t alloc_guard_page(unsigned int order, unsigned long *result)
 
 static err_t cpu_check_capability(void)
 {
-	struct ia32_feature_control_msr feature_control_msr;
+	union ia32_feature_control_msr feature_control_msr;
 	__u64 msr, capability_ept_vpid, controls2_msr;
 
 	/* check for VMX in CPUID */
@@ -180,9 +185,9 @@ static err_t cpu_check_capability(void)
 
 	/* A.1 BASIC VMX INFORMATION *
 	 * 23.7 ENABLING AND ENTERING VMX OPERATION */
-	rdmsrl(MSR_IA32_FEATURE_CONTROL, *(__u64 *)&feature_control_msr);
-	//hv_dbg("ftr_ctrl_msr = 0x%016llx", *(__u64 *)&feature_control_msr);
-	if (!feature_control_msr.lock)
+	rdmsrl(MSR_IA32_FEATURE_CONTROL, feature_control_msr.value);
+	//hv_dbg("ftr_ctrl_msr = 0x%016llx", feature_control_msr.value);
+	if (!feature_control_msr.bits.lock)
 		return ERROR_CPU_VMX_DISABLED;
 
 	return SUCCESS;
